@@ -45,7 +45,8 @@ public class ZookeeperTest {
     private static void modifyZNode() throws KeeperException, InterruptedException {
         byte[] mobanker = zooKeeperClient.getData("/mobanker",true,null);
         System.out.println("modify before:"+new String(mobanker));
-        zooKeeperClient.setData("/mobanker","Hello Zookeeper".getBytes(),-1);
+        Stat stat = zooKeeperClient.setData("/mobanker","Hello Zookeeper".getBytes(),-1);
+        System.out.println("修改后版本："+stat.getVersion());
         mobanker = zooKeeperClient.getData("/mobanker",true,null);
         System.out.println("modify after:"+new String(mobanker));
     }
