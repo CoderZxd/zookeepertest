@@ -1,4 +1,5 @@
 import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,6 +42,35 @@ public class ZookeeperTest {
 //        Thread.sleep(Long.MAX_VALUE);
     }
 
+    private static void modifyZNode() throws KeeperException, InterruptedException {
+        byte[] mobanker = zooKeeperClient.getData("/mobanker",true,null);
+        System.out.println("modify before:"+new String(mobanker));
+        zooKeeperClient.setData("/mobanker","Hello Zookeeper".getBytes(),-1);
+        mobanker = zooKeeperClient.getData("/mobanker",true,null);
+        System.out.println("modify after:"+new String(mobanker));
+    }
+
+    private static void deleteZNode() throws KeeperException, InterruptedException {
+        Stat stat = zooKeeperClient.exists("/mobanker",true);
+        if(null != stat){
+            System.out.println("/mobanker节点存在!");
+            zooKeeperClient.delete("/mobanker",-1);
+            stat = zooKeeperClient.exists("/mobanker",false);
+            if(null == stat){
+                System.out.println("删除成功!");
+            }else {
+                System.out.println("删除失败!");
+            }
+        }else{
+            System.out.println("/mobanker节点不存在!");
+        }
+
+    }
+    private static void getZNodeData() throws KeeperException, InterruptedException {
+        byte[] mobanker = zooKeeperClient.getData("/mobanker",true,null);
+        System.out.println(new String(mobanker));
+    }
+
     private static void getChildren() throws KeeperException, InterruptedException {
         List<String> paths = zooKeeperClient.getChildren("/",true);
         for(String path:paths){
@@ -48,6 +78,12 @@ public class ZookeeperTest {
         }
     }
     public static void main(String[] args) throws Exception {
-        createZNode();
+//        createZNode();
+        getZNodeData();
+        getChildren();
+        System.out.println("modifyZNode======================");
+        modifyZNode();
+        System.out.println("delete znode=================");
+        deleteZNode();
     }
 }
