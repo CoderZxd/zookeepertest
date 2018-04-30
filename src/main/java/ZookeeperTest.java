@@ -22,6 +22,18 @@ public class ZookeeperTest {
                     System.out.println("watchedEvent.getPath():"+watchedEvent.getPath());
                     System.out.println("watchedEvent.getState().name():"+watchedEvent.getState().name());
                     System.out.println("watchedEvent.getType().name():"+watchedEvent.getType().name());
+                    try {
+//                        if(null != watchedEvent.getPath() && !"".equals(watchedEvent.getPath())){
+                            //只会监听到/mobanker节点的数据变化，监听不到子节点变化
+//                            zooKeeperClient.exists("/monbanker",true);
+                            //只能监听到子节点变化，监听不到数据变化
+                            zooKeeperClient.getChildren("/mobanker",true);
+//                        }
+                    } catch (KeeperException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } catch (IOException e) {
@@ -80,11 +92,13 @@ public class ZookeeperTest {
     }
     public static void main(String[] args) throws Exception {
 //        createZNode();
-        getZNodeData();
-        getChildren();
-        System.out.println("modifyZNode======================");
-        modifyZNode();
-        System.out.println("delete znode=================");
-        deleteZNode();
+//        getZNodeData();
+//        getChildren();
+//        System.out.println("modifyZNode======================");
+//        modifyZNode();
+//        System.out.println("delete znode=================");
+//        deleteZNode();
+        System.out.println("begin===============");
+        Thread.sleep(Long.MAX_VALUE);
     }
 }
