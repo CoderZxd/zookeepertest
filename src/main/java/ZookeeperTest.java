@@ -27,7 +27,7 @@ public class ZookeeperTest {
                             //只会监听到/mobanker节点的数据变化，监听不到子节点变化
 //                            zooKeeperClient.exists("/monbanker",true);
                             //只能监听到子节点变化，监听不到数据变化
-                            zooKeeperClient.getChildren("/mobanker",true);
+                            zooKeeperClient.getChildren("/children",true);
 //                        }
                     } catch (KeeperException e) {
                         e.printStackTrace();
@@ -43,10 +43,10 @@ public class ZookeeperTest {
 
     private static void createZNode() throws KeeperException, InterruptedException {
         //CreateMode.PERSISTENT 创建永久节点
-        String nodeName_1 = zooKeeperClient.create("/mobanker","Hello World".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+        String nodeName_1 = zooKeeperClient.create("/children","Hello World".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 
         //CreateMode.EPHEMERAL 创建临时节点,线程结束节点被删除
-        String nodeName_2 = zooKeeperClient.create("/mobanker/fx","framework".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+        String nodeName_2 = zooKeeperClient.create("/children/fx","framework".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 
         System.out.println("nodeName_1:"+nodeName_1);
         System.out.println("nodeName_2:"+nodeName_2);
@@ -64,11 +64,11 @@ public class ZookeeperTest {
     }
 
     private static void deleteZNode() throws KeeperException, InterruptedException {
-        Stat stat = zooKeeperClient.exists("/mobanker",true);
+        Stat stat = zooKeeperClient.exists("/children",true);
         if(null != stat){
-            System.out.println("/mobanker节点存在!");
-            zooKeeperClient.delete("/mobanker",-1);
-            stat = zooKeeperClient.exists("/mobanker",false);
+            System.out.println("/children节点存在!");
+            zooKeeperClient.delete("/children",-1);
+            stat = zooKeeperClient.exists("/children",false);
             if(null == stat){
                 System.out.println("删除成功!");
             }else {
@@ -80,8 +80,8 @@ public class ZookeeperTest {
 
     }
     private static void getZNodeData() throws KeeperException, InterruptedException {
-        byte[] mobanker = zooKeeperClient.getData("/mobanker",true,null);
-        System.out.println(new String(mobanker));
+        byte[] children = zooKeeperClient.getData("/children",true,null);
+        System.out.println(new String(children));
     }
 
     private static void getChildren() throws KeeperException, InterruptedException {
