@@ -24,7 +24,7 @@ public class ZookeeperTest {
                     System.out.println("watchedEvent.getType().name():"+watchedEvent.getType().name());
                     try {
 //                        if(null != watchedEvent.getPath() && !"".equals(watchedEvent.getPath())){
-                            //只会监听到/mobanker节点的数据变化，监听不到子节点变化
+                            //只会监听到/children节点的数据变化，监听不到子节点变化
 //                            zooKeeperClient.exists("/monbanker",true);
                             //只能监听到子节点变化，监听不到数据变化
                             zooKeeperClient.getChildren("/children",true);
@@ -55,12 +55,12 @@ public class ZookeeperTest {
     }
 
     private static void modifyZNode() throws KeeperException, InterruptedException {
-        byte[] mobanker = zooKeeperClient.getData("/mobanker",true,null);
-        System.out.println("modify before:"+new String(mobanker));
-        Stat stat = zooKeeperClient.setData("/mobanker","Hello Zookeeper".getBytes(),-1);
+        byte[] children = zooKeeperClient.getData("/children",true,null);
+        System.out.println("modify before:"+new String(children));
+        Stat stat = zooKeeperClient.setData("/children","Hello Zookeeper".getBytes(),-1);
         System.out.println("修改后版本："+stat.getVersion());
-        mobanker = zooKeeperClient.getData("/mobanker",true,null);
-        System.out.println("modify after:"+new String(mobanker));
+        children = zooKeeperClient.getData("/children",true,null);
+        System.out.println("modify after:"+new String(children));
     }
 
     private static void deleteZNode() throws KeeperException, InterruptedException {
@@ -75,7 +75,7 @@ public class ZookeeperTest {
                 System.out.println("删除失败!");
             }
         }else{
-            System.out.println("/mobanker节点不存在!");
+            System.out.println("/children节点不存在!");
         }
 
     }
